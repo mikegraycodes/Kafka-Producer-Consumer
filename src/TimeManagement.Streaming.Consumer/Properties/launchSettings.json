@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TimeManagement.Streaming.Consumer": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

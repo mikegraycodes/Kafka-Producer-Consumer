@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  timemanagement.streaming.consumer:
+    image: ${DOCKER_REGISTRY-}timemanagementstreamingconsumer
+    build:
+      context: .
+      dockerfile: TimeManagement.Streaming.Consumer/Dockerfile

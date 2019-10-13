@@ -1,0 +1,18 @@
+FROM mcr.microsoft.com/dotnet/core/runtime:2.2-stretch-slim AS base
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+WORKDIR /src
+COPY ["src/TimeManagement.Streaming.Consumer/TimeManagement.Streaming.Consumer.csproj", "src/TimeManagement.Streaming.Consumer/"]
+RUN dotnet restore "src/TimeManagement.Streaming.Consumer/TimeManagement.Streaming.Consumer.csproj"
+COPY . .
+WORKDIR "/src/src/TimeManagement.Streaming.Consumer"
+RUN dotnet build "TimeManagement.Streaming.Consumer.csproj" -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish "TimeManagement.Streaming.Consumer.csproj" -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "TimeManagement.Streaming.Consumer.dll"]
